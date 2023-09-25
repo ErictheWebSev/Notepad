@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Notepad - List
+{% endblock %}
+
+{% block content %}
+ <div class="max-w-4xl sm:mx-auto mt-12 relative">
+ <div id="todo-form" class="w-full h-screen z-10 bg-gray-900 mb-5">
+   <h2 class="text-2xl text-white text-center">New notes</h2>
+   <button class="absolute -top-16 text-white left-2 bg-fuchsia-500 h-9 w-9 p-5
+   rounded-full text-center" id="closeForm"></button>
+    <form id="noteForm" method="post">
+      {% csrf_token %}
+      {{ form.media }}
+      
+      <div class="flex flex-col mb-12">
+        {{ form.title }}
+      </div>
+      
+      <div class="flex flex-col">
+        {{ form.content }}
+      </div>
+      <button type="submit" class="w-full h-10 px-4 py-2 bg-fuchsia-500
+      rounded-lg text-white my-4">Add Note</button> 
+    </form>
+  </div>
+   <h2 class="text-3xl text-white font-semibold text-center mb-6">Notepad</h2>
+   <div class="flex flex-col space-y-3">
+     {% for note in notes %}
+     <div class="box notes" data-file-id='{{ note.id }}'>
+       <h2 class="h2">{{ note.title }}</h2>
+       <p class="p">{{ note.created }}</p>
+     </div>
+    {% endfor %}
+   </div>
+   
+   <button class="fixed bottom-8 right-6 bg-fuchsia-500 w-16 h-16 p-3 text-center
+   rounded-full z-10 outline-none text-center text-white font-bold" id="openForm"> Add </button>
+   
+
+ </div>
+{% endblock %}
