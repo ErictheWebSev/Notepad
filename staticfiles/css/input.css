@@ -29,4 +29,8 @@
   .blueness {
     @apply bg-blue-400
   }
+  
+  .input {
+    @apply bg-transparent border border-pink-500 h-10 w-full
+  }
 }
