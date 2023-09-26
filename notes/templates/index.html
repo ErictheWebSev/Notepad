@@ -5,11 +5,15 @@
 {% endblock %}
 
 {% block content %}
- <div class="max-w-4xl sm:mx-auto mt-12 relative">
- <div id="todo-form" class="w-full h-screen z-10 bg-gray-900 mb-5">
-   <h2 class="text-2xl text-white text-center">New notes</h2>
-   <button class="absolute -top-16 text-white left-2 bg-fuchsia-500 h-9 w-9 p-5
-   rounded-full text-center" id="closeForm"></button>
+ <div id="todo-form" class="pb-20 w-full h-[120vh] py-6 bg-gray-900 z-10 top-0
+ overflow-x-hidden">
+   <div class="mt-16">
+     
+   <h2 class="text-2xl text-white text-center mb-4">New notes</h2>
+   <button class="absolute top-4 left-3 bg-fuchsia-500 w-14 h-14 p-3 text-center
+   rounded-full outline-none text-center text-white font-bold -translate-y-4
+   z-10"
+   id="closeForm"> <i class="fa fa-close"></i> </button>
     <form id="noteForm" method="post">
       {% csrf_token %}
       {{ form.media }}
@@ -21,23 +25,42 @@
       <div class="flex flex-col">
         {{ form.content }}
       </div>
-      <button type="submit" class="w-full h-10 px-4 py-2 bg-fuchsia-500
+      <button type="submit" class="w-full h-12 px-4 py-3 bg-fuchsia-500
       rounded-lg text-white my-4">Add Note</button> 
     </form>
+   </div>
   </div>
+ <div class="max-w-4xl sm:mx-auto relative overflow-x-hidden">
+
    <h2 class="text-3xl text-white font-semibold text-center mb-6">Notepad</h2>
    <div class="flex flex-col space-y-3">
      {% for note in notes %}
-     <div class="box notes" data-file-id='{{ note.id }}'>
-       <h2 class="h2">{{ note.title }}</h2>
-       <p class="p">{{ note.created }}</p>
+     <div class="flex justify-between">
+       <div class="box notes" data-file-id='{{ note.id }}'>
+         <h2 class="h2">{{ note.title }}</h2>
+         <p class="p">{{ note.created }}</p>
+       </div>
+       <div class="-translate-x-10 translate-y-6">
+         <button class="text-fuchsia-500 text-2xl delete" data-file-del='{{ note.id }}'><i class="fa fa-trash"></i></button>
+       </div>
      </div>
     {% endfor %}
    </div>
    
    <button class="fixed bottom-8 right-6 bg-fuchsia-500 w-16 h-16 p-3 text-center
-   rounded-full z-10 outline-none text-center text-white font-bold" id="openForm"> Add </button>
+   rounded-full z-10 outline-none text-center text-white font-bold"
+   id="openForm"> <i class="fa fa-plus"></i> </button>
    
-
+  <div id="detail-con" class="w-full h-screen px-4 py-6 bg-gray-900 z-10
+  fixed top-0 overflow-x-hidden overflow-hidden hidden">
+       <button class="absolute top-7 left-3 bg-fuchsia-500 w-14 h-14 p-3 text-center
+   rounded-full outline-none text-center text-white font-bold"
+   id="closeDetail"> <i class="fa fa-close"></i> </button>
+   <div class="mt-24">
+    <h2 class="detail-t h2 mb-12">Test</h2>
+    <div class="detail-b text-white">
+    </div>
+   </div>
+  </div>
  </div>
 {% endblock %}

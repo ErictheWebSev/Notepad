@@ -65,8 +65,9 @@ def edit_note(request, note_id):
 			return JsonResponse({'success': True, 'message': 'Edited Successfully'})
 	else:
 		form_edit = NoteForm(instance=note)
+		
 		context = {
 			'form2': form_edit
 		}
 		
-		return render(request, 'index.html')
+		return render(request, 'index.html', context)
