@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
   const formCon = document.getElementById('todo-form')
   const form = document.getElementById('noteForm')
+  const editForm = document.querySelectorAll('.editForm')
   const openBtn = document.getElementById('openForm')
+  const submitBtn = document.getElementById('submitBtn')
+const editBtn = document.querySelectorAll('.editBtn')
   const closeBtn = document.getElementById('closeForm')
   const closeDetail = document.getElementById('closeDetail')
   const detailCon = document.getElementById('detail-con')
@@ -63,4 +66,67 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
   
+  noteForm.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const formElement = e.target
+    const formData = new FormData(formElement)
+    const url = 'http://localhost:8000'
+    
+    fetch(url, {
+      method: 'POST',
+      body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+      submitBtn.textContent = data.message;
+      setTimeout(function() {
+        formCon.style.left = '-200%'
+        formCon.style.transition = 'all 0.3s'
+        openBtn.style.display = 'block'
+      }, 2000);
+      formElement.reset()
+      
+      setTimeout(function() {
+         window.location.reload()
+       }, 2300);
+    })
+    .catch(error => {
+      alert(error)
+    })
+  })
+  
+
+editForm.forEach(form => {
+  form.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const formElement = e.target
+    const id = e.target.getAttribute('data-note-id')
+    const formData = new FormData(formElement)
+    const url = `/edit/${id}/`
+    
+    fetch(url, {
+      method: 'POST',
+      body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+      editBtn.forEach(btn => {
+       btn.textContent = data.message;
+      })
+      setTimeout(function() {
+        closeModal(`modal-${id}`)
+      }, 1500);
+
+       setTimeout(function() {
+         window.location.reload()
+       }, 2000);
+    })
+    .catch(error => {
+      alert(error)
+    })
 })
+})
+
+  
+})
+

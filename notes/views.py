@@ -7,25 +7,28 @@ from .forms import NoteForm
 
 
 def note_view(request):
-	if request.method == 'POST':
-		form = NoteForm(request.POST)
-		if form.is_valid():
-			title = form.cleaned_data['title']
-			content = form.cleaned_data['content']
-			note = Note.objects.create(title=title, content=content)
-			response = {
-				'success': True,
-				'message': 'Note added Successfully',
-			}
-			return JsonResponse(response)
-	notes = Note.objects.all()
-	form = NoteForm()
-	
-	context = {
-		'notes': notes,
-		'form': form,
-	}
-	return render(request, 'index.html', context)
+  if request.method == 'POST':
+    title = request.POST['title']
+    content = request.POST['content']
+    
+    note = Note.objects.create(title=title, content=content)
+    
+    response = {
+      'success': True,
+      'message': 'Note added Successfully',
+      'noteId': note.id,
+      'noteTitle': note.title,
+      'noteContent': note.content,
+      'noteCreated': note.created,
+    }
+    return JsonResponse(response)
+  notes = Note.objects.all()
+  
+  context = {
+    'notes': notes
+  }
+  
+  return render(request, 'index.html', context)
 
 
 def note_detail(request, note_id):
@@ -57,17 +60,16 @@ def edit_note(request, note_id):
 	note = get_object_or_404(Note, id=note_id)
 	
 	if request.method == 'POST':
-		form_edit = NoteForm(request.POST, instance=note)
+		updated_title = request.POST['updated_title']
+		updated_content = request.POST['updated_content']
 		
-		if form_edit.is_valid():
-			form_edit.save()
-			
-			return JsonResponse({'success': True, 'message': 'Edited Successfully'})
-	else:
-		form_edit = NoteForm(instance=note)
+		note.title = updated_title
+		note.content = updated_content
 		
-		context = {
-			'form2': form_edit
+		note.save()
+		
+		response = {
+		  'success': True,
+		  'message': 'Edited Successfully'
 		}
-		
-		return render(request, 'index.html', context)
+		return JsonResponse(response)

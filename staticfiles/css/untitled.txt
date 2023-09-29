@@ -1,0 +1,73 @@
+   http://localhost:8000
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+    <form id="noteForm" method="post">
+      <input type="hidden" name="csrfmiddlewaretoken" value="Z1vuvMvN2Ch1IKFOasq3fTN2jd6YYDWNPFf1YK0ekN7zO5SxROiTxcUIYbQG1U9Z">
+      <link href="/static/ckeditor/ckeditor.css" media="all" rel="stylesheet">
+<script src="/static/ckeditor/ckeditor-init.js" data-ckeditor-basepath="/static/ckeditor/ckeditor/" id="ckeditor-init-script"></script>
+<script src="/static/ckeditor/ckeditor/ckeditor.js"></script>
+      
+      <div class="flex flex-col mb-12">
+        <input type="text" name="title" class="bg-gray-700  h-10 w-80 text-lg px-4 py-3 text-gray-600" placeholder="Enter A Task" maxlength="100" required id="id_title">
+      </div>
+      
+      <div class="flex flex-col">
+        <div class="django-ckeditor-widget" data-field-id="id_content" style="display: inline-block;">
+    <textarea name="content" cols="40" rows="10" required id="id_content" data-processed="0" data-config="{&quot;skin&quot;: &quot;moono-lisa&quot;, &quot;toolbar_Basic&quot;: [[&quot;Source&quot;, &quot;-&quot;, &quot;Bold&quot;, &quot;Italic&quot;]], &quot;toolbar_Full&quot;: [[&quot;Styles&quot;, &quot;Format&quot;, &quot;Bold&quot;, &quot;Italic&quot;, &quot;Underline&quot;, &quot;Strike&quot;, &quot;SpellChecker&quot;, &quot;Undo&quot;, &quot;Redo&quot;], [&quot;Link&quot;, &quot;Unlink&quot;, &quot;Anchor&quot;], [&quot;Image&quot;, &quot;Flash&quot;, &quot;Table&quot;, &quot;HorizontalRule&quot;], [&quot;TextColor&quot;, &quot;BGColor&quot;], [&quot;Smiley&quot;, &quot;SpecialChar&quot;], [&quot;Source&quot;]], &quot;toolbar&quot;: &quot;Full&quot;, &quot;height&quot;: 300, &quot;width&quot;: 330, &quot;filebrowserWindowWidth&quot;: 940, &quot;filebrowserWindowHeight&quot;: 725, &quot;contentsCss&quot;: [&quot;static/css/styles.css&quot;], &quot;language&quot;: &quot;en-us&quot;}" data-external-plugin-resources="[]" data-id="id_content" data-type="ckeditortype"></textarea>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    def note_view(request):
+	if request.method == 'POST':
+		form = NoteForm(request.POST)
+		if form.is_valid():
+			title = form.cleaned_data['title']
+			content = form.cleaned_data['content']
+			note = Note.objects.create(title=title, content=content)
+			response = {
+				'success': True,
+				'message': 'Note added Successfully',
+			}
+			return JsonResponse(response)
+	notes = Note.objects.all()
+	form = NoteForm()
+	
+	context = {
+		'notes': notes,
+		'form': form,
+	}
+	return render(request, 'index.html', context)

@@ -6,44 +6,79 @@
 
 {% block content %}
  <div id="todo-form" class="pb-20 w-full h-[120vh] py-6 bg-gray-900 z-10 top-0
- overflow-x-hidden">
+ overflow-x-hidden px-8">
    <div class="mt-16">
      
    <h2 class="text-2xl text-white text-center mb-4">New notes</h2>
-   <button class="absolute top-4 left-3 bg-fuchsia-500 w-14 h-14 p-3 text-center
-   rounded-full outline-none text-center text-white font-bold -translate-y-4
-   z-10"
+   <button class="absolute top-4 right-3 w-14 h-14 outline-none text-white font-bold -translate-y-4
+   z-10 text-xl"
    id="closeForm"> <i class="fa fa-close"></i> </button>
     <form id="noteForm" method="post">
       {% csrf_token %}
-      {{ form.media }}
       
-      <div class="flex flex-col mb-12">
-        {{ form.title }}
-      </div>
-      
-      <div class="flex flex-col">
-        {{ form.content }}
-      </div>
-      <button type="submit" class="w-full h-12 px-4 py-3 bg-fuchsia-500
-      rounded-lg text-white my-4">Add Note</button> 
+     <div class="flex flex-col mb-6">
+      <label class="text-lg text-white font-bold">Note Title</label>
+      <input type="text" name="title" id="title" class="input"
+           placeholder="Eg. Film content" required>
+     </div>
+     <div class="flex flex-col mb-6 mt-9">
+      <label class="text-lg text-white font-bold">Note Content</label>
+      <textarea type="text" name="content" id="content" class="input resize-none
+      h-20 py-4"
+      placeholder="Content" required></textarea>
+     </div>
+      <button id="submitBtn" type="submit" class="w-full h-12 px-4 py-3 bg-fuchsia-500 rounded-lg text-white my-4 mx-auto">Add Note</button> 
     </form>
    </div>
   </div>
- <div class="max-w-4xl sm:mx-auto relative overflow-x-hidden">
+ <div class="max-w-4xl sm:mx-auto relative overflow-x-hidden pb-6">
 
    <h2 class="text-3xl text-white font-semibold text-center mb-6">Notepad</h2>
-   <div class="flex flex-col space-y-3">
+   <div class="flex flex-col space-y-3" id="note-con">
      {% for note in notes %}
-     <div class="flex justify-between">
+     <div class="flex relative">
        <div class="box notes" data-file-id='{{ note.id }}'>
          <h2 class="h2">{{ note.title }}</h2>
          <p class="p">{{ note.created }}</p>
        </div>
-       <div class="-translate-x-10 translate-y-6">
+       <div class="flex absolute right-3 translate-y-5 space-x-3">
+         <button class="text-fuchsia-500 text-2xl" onclick="openModal('modal-{{ note.id }}')" type="button"><i class="fa fa-edit"></i></button>
          <button class="text-fuchsia-500 text-2xl delete" data-file-del='{{ note.id }}'><i class="fa fa-trash"></i></button>
        </div>
+       
+       <!-- edit modal  -->
+  <div id="modal-{{ note.id }}" class="pb-12 w-full h-[200vh] py-6 bg-gray-900 z-10 top-0
+ overflow-x-hidden px-8 absolute hidden -mt-32">
+   <div class="mt-16">
+     
+   <h2 class="text-2xl text-white text-center mb-4">Edit notes</h2>
+   <button class="absolute top-4 right-3 w-14 h-14 outline-none text-white font-bold -translate-y-4
+   z-20 text-xl"
+   id="closeEdit" onclick="closeModal('modal-{{ note.id }}')"> <i class="fa fa-close"></i> </button>
+    <form class="editForm" method="post" data-note-id='{{ note.id }}' action="{% url 'edit-note' note.id  %}">
+      {% csrf_token %}
+     <div class="flex flex-col mb-6">
+      <label class="text-lg text-white font-bold">Note Title</label>
+      <input type="text" name="updated_title" id="updated_title" class="input" value="{{ note.title }}" required>
      </div>
+     <div class="flex flex-col mb-6 mt-9">
+      <label class="text-lg text-white font-bold">Note Content</label>
+      <textarea type="text" name="updated_content" id="updated_content" class="input resize-none
+      h-20 py-4 text-white" required>
+        {{ note.content }}
+      </textarea>
+     </div>
+      <button type="submit" class="w-full h-12 px-4 py-3
+      bg-fuchsia-500 rounded-lg text-white my-4 mx-auto editBtn">Edit</button> 
+    </form>
+   </div>
+  </div>
+  
+  
+     </div>
+     {% empty %}
+     <h2 class="text-fuchsia-500 text-xl">No Notes Added</h2>
+     <p class="text-white text-sm"> Click the plus button to add note</p>
     {% endfor %}
    </div>
    
@@ -53,8 +88,7 @@
    
   <div id="detail-con" class="w-full h-screen px-4 py-6 bg-gray-900 z-10
   fixed top-0 overflow-x-hidden overflow-hidden hidden">
-       <button class="absolute top-7 left-3 bg-fuchsia-500 w-14 h-14 p-3 text-center
-   rounded-full outline-none text-center text-white font-bold"
+       <button class="absolute top-7 left-3 w-14 h-14 p-3 outline-none text-center text-white font-bold"
    id="closeDetail"> <i class="fa fa-close"></i> </button>
    <div class="mt-24">
     <h2 class="detail-t h2 mb-12">Test</h2>
@@ -63,4 +97,16 @@
    </div>
   </div>
  </div>
+ 
+ <script type="text/javascript" charset="utf-8">
+   function openModal(modalId) {
+    let modal = document.getElementById(modalId);
+    modal.classList.toggle('hidden');
+}
+
+function closeModal(modalId) {
+    let modal = document.getElementById(modalId);
+    modal.classList.add('hidden');
+}
+ </script>
 {% endblock %}
