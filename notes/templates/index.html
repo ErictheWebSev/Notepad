@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
- <div id="todo-form" class="pb-20 w-full h-[120vh] py-6 bg-gray-900 z-10 top-0
+ <div id="todo-form" class="pb-10 w-full h-[120vh] py-6 bg-gray-900 z-10 top-0
  overflow-x-hidden px-8">
    <div class="mt-16">
      
@@ -36,7 +36,7 @@
    <h2 class="text-3xl text-white font-semibold text-center mb-6">Notepad</h2>
    <div class="flex flex-col space-y-3" id="note-con">
      {% for note in notes %}
-     <div class="flex relative">
+     <div class="flex">
        <div class="box notes" data-file-id='{{ note.id }}'>
          <h2 class="h2">{{ note.title }}</h2>
          <p class="p">{{ note.created }}</p>
@@ -47,8 +47,8 @@
        </div>
        
        <!-- edit modal  -->
-  <div id="modal-{{ note.id }}" class="pb-12 w-full h-[200vh] py-6 bg-gray-900 z-10 top-0
- overflow-x-hidden px-8 absolute hidden -mt-32">
+  <div id="modal-{{ note.id }}" class="py-3 w-full h-[50vh] bg-gray-900 border border-fuchsia-500
+  z-[100000] top-0 overflow-x-hidden px-8 absolute hidden">
    <div class="mt-16">
      
    <h2 class="text-2xl text-white text-center mb-4">Edit notes</h2>

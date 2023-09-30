@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  font-size: 92%;
+}
 
 @layer base {
   .box {

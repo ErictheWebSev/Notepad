@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
+from django.contrib.auth.models import User
+from django.contrib.auth import login, logout, authenticate
 
 from .models import Note
 from .forms import NoteForm
@@ -73,3 +75,51 @@ def edit_note(request, note_id):
 		  'message': 'Edited Successfully'
 		}
 		return JsonResponse(response)
+
+
+def register(request):
+	if request.method == 'POST':
+		username = request.POST['username']
+		password = request.POST['password']
+		
+		if User.objects.filter(username=username).exists():
+			response = {
+			  'success': False,
+			  'mesaage': 'User Already Eaxists...'
+			}
+			return JsonResponse(response)
+		else:
+			user = User.objects.create_user(username=username, password=password)
+			user.save()
+			login(request, user)
+			response = {
+			  'success': True,
+			  'message': 'Registration Successful'
+			}
+			return JsonResponse(response)
+	return render(request, 'register.html')
+
+
+
+def log_in(request):
+	if request.method == 'POST':
+		username = request.POST['username']
+		password = request.POST['password']
+		
+		user = authenticate(request, username=username, password=password)
+		
+		if user is not None:
+			login(request, user)
+			response = {
+			  'success': True,
+			  'message': f'welcome {username}!'
+			}
+			
+			return JsonResponse(response)
+		else:
+			response = {
+				'success': False,
+				'message': 'Invalid Login...'
+			}
+			return JsonResponse(response)
+	return render(request, 'login.html')
