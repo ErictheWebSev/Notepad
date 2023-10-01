@@ -1,19 +1,31 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 
 from .models import Note
 from .forms import NoteForm
 
 
-
+@login_required(login_url='login')
 def note_view(request):
+  notes = Note.objects.filter(user=request.user)
+  
+  context = {
+    'notes': notes
+  }
+  
+  return render(request, 'index.html', context)
+
+ 
+@login_required(login_url='login')
+def add_note(request):
   if request.method == 'POST':
     title = request.POST['title']
     content = request.POST['content']
     
-    note = Note.objects.create(title=title, content=content)
+    note = Note.objects.create(title=title, content=content, user=request.user)
     
     response = {
       'success': True,
@@ -23,18 +35,12 @@ def note_view(request):
       'noteContent': note.content,
       'noteCreated': note.created,
     }
-    return JsonResponse(response)
-  notes = Note.objects.all()
-  
-  context = {
-    'notes': notes
-  }
-  
-  return render(request, 'index.html', context)
+    return JsonResponse(response)	
 
 
+@login_required(login_url='login')
 def note_detail(request, note_id):
-	note = get_object_or_404(Note, id=note_id)
+	note = get_object_or_404(Note, id=note_id, user=request.user)
 	title = note.title
 	content = note.content
 
@@ -46,8 +52,9 @@ def note_detail(request, note_id):
 	return JsonResponse(context)
 
 
+@login_required(login_url='login')
 def delete_note(request, note_id):
-	note = get_object_or_404(Note, id=note_id)
+	note = get_object_or_404(Note, id=note_id, user=request.user)
 	
 	note.delete()
 	response = {
@@ -57,9 +64,9 @@ def delete_note(request, note_id):
 	return JsonResponse(response)
 
 
-
+@login_required(login_url='login')
 def edit_note(request, note_id):
-	note = get_object_or_404(Note, id=note_id)
+	note = get_object_or_404(Note, id=note_id, user=request.user)
 	
 	if request.method == 'POST':
 		updated_title = request.POST['updated_title']
@@ -123,3 +130,8 @@ def log_in(request):
 			}
 			return JsonResponse(response)
 	return render(request, 'login.html')
+
+
+def logout_user(request):
+  logout(request)
+  return redirect('note-view')

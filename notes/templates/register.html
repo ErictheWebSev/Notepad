@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Notepad - Login
+{% endblock %}
+
+{% block content %}
+  <h2 class="text-2xl text-white text-center mb-4">Register</h2>
+  
+  <div class="px-6 mt-10">
+    <form id="registerForm" method="post">
+      {% csrf_token %}
+      
+     <div class="flex flex-col mb-6">
+      <label class="text-lg text-white font-bold">Username</label>
+      <input type="text" name="username" id="username" class="input" placeholder="Eg. Johnny" required>
+     </div>
+     <div class="flex flex-col mb-6 mt-9">
+      <label class="text-lg text-white font-bold">Password</label>
+      <input type="password" name="password" id="password" class="input"
+      placeholder="Enter Password" required />
+     </div>
+      <button id="submit" type="submit" class="w-full h-12 px-4 py-3
+      bg-fuchsia-500 rounded-lg text-white my-4 mx-auto">Submit</button> 
+    </form>
+  </div>
+  
+  <script type="text/javascript" charset="utf-8">
+    ///////   auth  ///////
+function registerUser(formData) {
+  fetch('/register/', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      document.getElementById('submit').textContent = data.message
+      window.location.href = '/';
+    } else {
+      document.getElementById('submit').textContent = data.message;
+    }
+  })
+  .catch(error => {
+    alert('error occured' + error);
+  });
+}
+
+
+const loginForm = document.getElementById('registerForm')
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  document.getElementById('submit').textContent = 'LOADING...'
+  const formElement = e.target;
+  const formData = new FormData(formElement);
+  registerUser(formData)
+    e.target.reset();
+})
+  </script>
+  
+{% endblock %}

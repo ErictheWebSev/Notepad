@@ -27,12 +27,14 @@
       h-20 py-4"
       placeholder="Content" required></textarea>
      </div>
-      <button id="submitBtn" type="submit" class="w-full h-12 px-4 py-3 bg-fuchsia-500 rounded-lg text-white my-4 mx-auto">Add Note</button> 
+      <button id="submitBtn" type="submit" class="w-full h-12 px-4 py-3
+      bg-fuchsia-500 rounded-lg text-white my-4 mx-auto text-lg">Add Note</button> 
     </form>
    </div>
   </div>
  <div class="max-w-4xl sm:mx-auto relative overflow-x-hidden pb-6">
-
+<!--      <a href="{% url 'logout' %}"><p class="text-right text-fuchsia-600
+     text-lg">Logout</p></a> -->
    <h2 class="text-3xl text-white font-semibold text-center mb-6">Notepad</h2>
    <div class="flex flex-col space-y-3" id="note-con">
      {% for note in notes %}
@@ -42,8 +44,8 @@
          <p class="p">{{ note.created }}</p>
        </div>
        <div class="flex absolute right-3 translate-y-5 space-x-3">
-         <button class="text-fuchsia-500 text-2xl" onclick="openModal('modal-{{ note.id }}')" type="button"><i class="fa fa-edit"></i></button>
-         <button class="text-fuchsia-500 text-2xl delete" data-file-del='{{ note.id }}'><i class="fa fa-trash"></i></button>
+         <button class="text-fuchsia-500 text-xl" onclick="openModal('modal-{{ note.id }}')" type="button"><i class="fa fa-edit"></i></button>
+         <button class="text-fuchsia-500 text-xl delete" data-file-del='{{ note.id }}'><i class="fa fa-trash"></i></button>
        </div>
        
        <!-- edit modal  -->
@@ -69,7 +71,7 @@
       </textarea>
      </div>
       <button type="submit" class="w-full h-12 px-4 py-3
-      bg-fuchsia-500 rounded-lg text-white my-4 mx-auto editBtn">Edit</button> 
+      bg-fuchsia-500 rounded-lg text-white my-4 mx-auto editBtn text-lg">Edit</button> 
     </form>
    </div>
   </div>
@@ -92,7 +94,7 @@
    id="closeDetail"> <i class="fa fa-close"></i> </button>
    <div class="mt-24">
     <h2 class="detail-t h2 mb-12">Test</h2>
-    <div class="detail-b text-white">
+    <div class="detail-b text-white text-lg">
     </div>
    </div>
   </div>

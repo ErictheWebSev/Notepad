@@ -10,6 +10,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
   <body class="bg-gray-900">
+    <header class="w-full h-20 px-5 py-3 mb-4 border-b border-b-gray-300 flex
+    justify-between items-center">
+      <div class="">
+        <h2 class="h2">Notepad</h2>
+      </div>
+      
+      <div class="logo text-xl pl-5 text-gray-200 space-x-5 flex">
+        {% if user.is_authenticated %}
+        <a class="" href="/logout"> Logout</a>
+        {% else %}
+        <a class="" href="/login"> Login</a>
+        <a class="" href="/register">Register</a>
+        {% endif %}
+
+        </div>
+        
+    </header>
     <div class=" bg-gray-900 py-10 px-3 relative">
       {% block content %}
       {% endblock %}

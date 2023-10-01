@@ -70,7 +70,7 @@ const editBtn = document.querySelectorAll('.editBtn')
     e.preventDefault()
     const formElement = e.target
     const formData = new FormData(formElement)
-    const url = 'https://notepad-fl.onrender.com/'
+    const url = '/add/'
     
     fetch(url, {
       method: 'POST',
@@ -126,6 +126,8 @@ editForm.forEach(form => {
     })
 })
 })
+
+
 
   
 })
