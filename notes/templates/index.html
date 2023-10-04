@@ -11,24 +11,24 @@
      
    <h2 class="text-2xl text-white text-center mb-4">New notes</h2>
    <button class="absolute top-4 right-3 w-14 h-14 outline-none text-white font-bold -translate-y-4
-   z-10 text-xl"
+   z-10 text-xl sm:text-2xl"
    id="closeForm"> <i class="fa fa-close"></i> </button>
-    <form id="noteForm" method="post">
+    <form id="noteForm" method="post" class="sm:mx-auto max-w-3xl">
       {% csrf_token %}
       
      <div class="flex flex-col mb-6">
-      <label class="text-lg text-white font-bold">Note Title</label>
-      <input type="text" name="title" id="title" class="input"
+      <label class="text-lg sm:text-xl text-white font-bold">Note Title</label>
+      <input type="text" name="title" id="title" class="input sm:h-14"
            placeholder="Eg. Film content" required>
      </div>
      <div class="flex flex-col mb-6 mt-9">
       <label class="text-lg text-white font-bold">Note Content</label>
       <textarea type="text" name="content" id="content" class="input resize-none
-      h-20 py-4"
+      h-20 py-4 sm:h-28"
       placeholder="Content" required></textarea>
      </div>
       <button id="submitBtn" type="submit" class="w-full h-12 px-4 py-3
-      bg-fuchsia-500 rounded-lg text-white my-4 mx-auto text-lg">Add Note</button> 
+      bg-fuchsia-500 rounded-lg text-white my-4 mx-auto text-lg sm:text-xl">Add Note</button> 
     </form>
    </div>
   </div>
@@ -84,7 +84,8 @@
     {% endfor %}
    </div>
    
-   <button class="fixed bottom-8 right-6 bg-fuchsia-500 w-16 h-16 p-3 text-center
+   <button class="fixed bottom-8 right-6 bg-fuchsia-500 w-16 h-16 sm:h-24
+   sm:w-24 text-lg sm:text-xl p-3 text-center
    rounded-full z-10 outline-none text-center text-white font-bold"
    id="openForm"> <i class="fa fa-plus"></i> </button>
    

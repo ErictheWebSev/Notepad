@@ -8,20 +8,20 @@
   <h2 class="text-2xl text-white text-center mb-4">Login</h2>
   
   <div class="px-6 mt-10">
-    <form id="loginForm" method="post">
+    <form id="loginForm" method="post" class="sm:mx-auto max-w-3xl">
       {% csrf_token %}
       
      <div class="flex flex-col mb-6">
-      <label class="text-lg text-white font-bold">Username</label>
-      <input type="text" name="username" id="username" class="input" placeholder="Eg. Johnny" required>
+      <label class="text-lg text-white font-bold sm:text-xl">Username</label>
+      <input type="text" name="username" id="username" class="input sm:h-14" placeholder="Eg. Johnny" required>
      </div>
      <div class="flex flex-col mb-6 mt-9">
-      <label class="text-lg text-white font-bold">Password</label>
-      <input type="password" name="password" id="password" class="input"
+      <label class="text-lg text-white font-bold sm:text-xl">Password</label>
+      <input type="password" name="password" id="password" class="input sm:h-14"
       placeholder="Enter Password" required />
      </div>
       <button id="submit" type="submit" class="w-full h-12 px-4 py-3
-      bg-fuchsia-500 rounded-lg text-white my-4 mx-auto">Submit</button> 
+      bg-fuchsia-500 rounded-lg text-white my-4 mx-auto sm:text-xl">Submit</button> 
     </form>
   </div>
   
